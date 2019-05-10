@@ -45,8 +45,6 @@ class DatabaseHelper {
   Future<int> saveNote(Notes note) async {
     var dbClient = await db;
     var result = await dbClient.insert(tableNote, note.toMap());
-//    var result = await dbClient.rawInsert(
-//        'INSERT INTO $tableNote ($columnTitle, $columnDescription) VALUES (\'${note.title}\', \'${note.description}\')');
 
     return result;
   }
@@ -70,7 +68,7 @@ class DatabaseHelper {
         columns: [columnId, columnTitle, columnDescription],
         where: '$columnId = ?',
         whereArgs: [id]);
-//    var result = await dbClient.rawQuery('SELECT * FROM $tableNote WHERE $columnId = $id');
+
 
     if (result.length > 0) {
       return new Notes.fromMap(result.first);
@@ -82,14 +80,13 @@ class DatabaseHelper {
   Future<int> deleteNote(int id) async {
     var dbClient = await db;
     return await dbClient.delete(tableNote, where: '$columnId = ?', whereArgs: [id]);
-//    return await dbClient.rawDelete('DELETE FROM $tableNote WHERE $columnId = $id');
+
   }
 
   Future<int> updateNote(Notes note) async {
     var dbClient = await db;
     return await dbClient.update(tableNote, note.toMap(), where: "$columnId = ?", whereArgs: [note.id]);
-//    return await dbClient.rawUpdate(
-//        'UPDATE $tableNote SET $columnTitle = \'${note.title}\', $columnDescription = \'${note.description}\' WHERE $columnId = ${note.id}');
+
   }
 
   Future close() async {
